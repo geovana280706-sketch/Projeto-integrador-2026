@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ECOINDUSTRY 2050</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      font-family:Arial,Helvetica,sans-serif;
+      background:#05080d;
+      color:#fff;
+      line-height:1.6;
+      overflow-x:hidden;
+    }
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      z-index:-1;
+      background:
+        radial-gradient(circle at 10% 10%,rgba(40,243,160,.18),transparent 30%),
+        radial-gradient(circle at 90% 5%,rgba(73,182,255,.16),transparent 35%),
+        linear-gradient(180deg,#05080d,#071018,#05080d);
+    }
+    a{text-decoration:none;color:inherit}
+    .container{width:min(1180px,calc(100% - 32px));margin:auto}
+    .glass{
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.16);
+      backdrop-filter:blur(18px);
+      border-radius:12px;
+      box-shadow:0 24px 70px rgba(0,0,0,.35);
+    }
+    .section{padding:90px 0}
+    .section-title{
+      display:grid;
+      grid-template-columns:1fr .55fr;
+      gap:30px;
+      align-items:end;
+      margin-bottom:35px;
+    }
+    .eyebrow{
+      color:#28f3a0;
+      font-size:.8rem;
+      font-weight:800;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      margin-bottom:10px;
+    }
+    h1{font-size:clamp(3.2rem,8vw,7.5rem);line-height:1;font-weight:900}
+    h2{font-size:clamp(2rem,4vw,4rem);line-height:1.05}
+    h3{font-size:1.2rem;margin-bottom:10px}
+    p{color:#a9bfbd}
+    .nav{
+      position:fixed;
+      top:14px;
+      left:50%;
+      transform:translateX(-50%);
+      z-index:99;
+      width:min(1180px,calc(100% - 28px));
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:12px 16px;
+      border-radius:999px;
+      background:rgba(5,8,13,.72);
+      border:1px solid rgba(255,255,255,.16);
+      backdrop-filter:blur(20px);
+    }
+    .brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:.06em}
+    .mark{
+      width:32px;height:32px;border-radius:50%;
+      background:linear-gradient(135deg,#28f3a0,#49b6ff);
+      box-shadow:0 0 25px rgba(40,243,160,.45);
+    }
+    .links{display:flex;gap:8px;font-size:.9rem}
+    .links a{padding:8px 12px;border-radius:999px;color:#d9e8e6}
+    .links a:hover{background:rgba(255,255,255,.1)}
+    .hero{
+      min-height:100vh;
+      position:relative;
+      display:grid;
+      align-items:center;
+      overflow:hidden;
+      padding:120px 0 70px;
+    }
+    .hero video{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      opacity:.35;
+    }
+    .hero::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(90deg,rgba(5,8,13,.95),rgba(5,8,13,.6),rgba(5,8,13,.35));
+    }
+    .hero .container{position:relative;z-index:2}
+    .hero-text{max-width:760px;font-size:1.25rem;margin:22px 0;color:#d1e5e2}
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:48px;
+      padding:0 24px;
+      border-radius:999px;
+      border:0;
+      background:linear-gradient(135deg,#28f3a0,#49b6ff);
+      color:#03120f;
+      font-weight:900;
+      cursor:pointer;
+      transition:.25s;
+    }
+    .btn:hover,.card:hover,.ghost:hover{transform:translateY(-4px)}
+    .hero-metrics,.grid4,.grid5,.kpis,.charts,.news,.counters,.refs{
+      display:grid;
+      gap:16px;
+    }
+    .hero-metrics{grid-template-columns:repeat(3,1fr);max-width:850px;margin-top:50px}
+    .grid4{grid-template-columns:repeat(4,1fr)}
+    .grid5{grid-template-columns:repeat(5,1fr)}
+    .card{padding:24px;transition:.25s}
+    .card:hover{border-color:rgba(40,243,160,.55);background:rgba(40,243,160,.1)}
+    .icon{
+      width:44px;height:44px;border-radius:50%;
+      display:grid;place-items:center;
+      margin-bottom:16px;
+      background:linear-gradient(135deg,rgba(40,243,160,.25),rgba(73,182,255,.16));
+      color:#28f3a0;
+      font-weight:900;
+    }
+    .dashboard{display:grid;grid-template-columns:.8fr 1.2fr;gap:18px}
+    .ring-box{min-height:340px;display:grid;place-items:center;text-align:center}
+    .ring{
+      width:260px;
+      aspect-ratio:1;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      position:relative;
+      background:conic-gradient(#28f3a0 0 87%,rgba(255,255,255,.12) 87% 100%);
+    }
+    .ring::before{
+      content:"";
+      position:absolute;
+      inset:18px;
+      background:#05080d;
+      border-radius:50%;
+    }
+    .ring div{position:relative}
+    .ring strong{font-size:4rem;display:block;line-height:1}
+    .kpis{grid-template-columns:repeat(2,1fr)}
+    .kpi{padding:24px}
+    .kpi strong{display:block;font-size:2.6rem;margin:8px 0}
+    .bar{height:8px;border-radius:999px;background:rgba(255,255,255,.12);overflow:hidden}
+    .bar i{display:block;height:100%;width:var(--v);background:linear-gradient(90deg,#28f3a0,#49b6ff)}
+    .charts{grid-template-columns:repeat(2,1fr)}
+    .chart{padding:22px;min-height:360px}
+    .chart-box{height:280px}
+    .table-wrap{overflow-x:auto}
+    table{width:100%;min-width:760px;border-collapse:collapse;background:rgba(255,255,255,.04)}
+    th,td{padding:17px 18px;border-bottom:1px solid rgba(255,255,255,.1);text-align:left}
+    th{text-transform:uppercase;font-size:.78rem;letter-spacing:.08em;background:rgba(255,255,255,.08)}
+    tr:hover{background:rgba(40,243,160,.08)}
+    .tag{
+      display:inline-flex;
+      padding:4px 10px;
+      border-radius:999px;
+      background:rgba(40,243,160,.14);
+      color:#a9ffdc;
+      font-size:.82rem;
+      font-weight:800;
+    }
+    .timeline{position:relative;display:grid;gap:18px;padding-left:22px}
+    .timeline::before{content:"";position:absolute;left:7px;top:8px;bottom:8px;width:2px;background:linear-gradient(#28f3a0,#49b6ff)}
+    .time{position:relative;padding:20px;display:grid;grid-template-columns:100px 1fr;gap:18px}
+    .time::before{
+      content:"";
+      position:absolute;
+      left:-21px;
+      top:28px;
+      width:14px;height:14px;border-radius:50%;
+      background:#28f3a0;
+      box-shadow:0 0 0 7px rgba(40,243,160,.15);
+    }
+    .year{color:#5ff8ff;font-size:1.35rem;font-weight:900}
+    .news{grid-template-columns:repeat(3,1fr)}
+    .media{overflow:hidden;padding:0}
+    .media img{display:block;width:100%;height:190px;object-fit:cover}
+    .media div{padding:20px}
+    .simulator,.quiz{display:grid;grid-template-columns:.95fr .55fr;gap:18px}
+    .controls{display:grid;gap:16px}
+    .control{padding:18px}
+    .control label{display:flex;justify-content:space-between;color:#fff;font-weight:800;margin-bottom:10px}
+    input[type=range]{width:100%;accent-color:#28f3a0}
+    .results{padding:24px;display:grid;gap:16px;align-content:start}
+    .result{display:flex;justify-content:space-between;gap:12px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.1)}
+    .result:last-child{border-bottom:0}
+    .result b{font-size:1.55rem}
+    .question,.quiz-panel{padding:24px}
+    .answers{display:grid;gap:12px;margin-top:18px}
+    .answer{
+      width:100%;
+      min-height:52px;
+      padding:12px 14px;
+      text-align:left;
+      color:#fff;
+      background:rgba(255,255,255,.07);
+      border:1px solid rgba(255,255,255,.16);
+      border-radius:10px;
+      cursor:pointer;
+    }
+    .answer:hover,.answer.selected{background:rgba(40,243,160,.12);border-color:#28f3a0}
+    .progress{height:10px;background:rgba(255,255,255,.12);border-radius:999px;overflow:hidden;margin:14px 0}
+    .progress i{display:block;height:100%;width:10%;background:linear-gradient(90deg,#28f3a0,#49b6ff)}
+    .ghost{
+      min-height:44px;
+      padding:0 16px;
+      margin-right:8px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.18);
+      color:#fff;
+      background:rgba(255,255,255,.08);
+      cursor:pointer;
+      transition:.2s;
+    }
+    .counters,.refs{grid-template-columns:repeat(4,1fr)}
+    .counter{text-align:center;padding:24px}
+    .counter strong{font-size:3rem;display:block}
+    footer{padding:46px 0;border-top:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.22)}
+    .footer{display:flex;justify-content:space-between;gap:20px}
+    .reveal{opacity:0;transform:translateY(25px);transition:.7s}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+    @media(max-width:1000px){
+      .links{display:none}
+      .section-title,.dashboard,.simulator,.quiz{grid-template-columns:1fr}
+      .grid4,.grid5,.news,.counters,.refs{grid-template-columns:repeat(2,1fr)}
+      .charts{grid-template-columns:1fr}
+    }
+    @media(max-width:680px){
+      .hero-metrics,.grid4,.grid5,.kpis,.news,.counters,.refs{grid-template-columns:1fr}
+      .time{grid-template-columns:1fr}
+      .footer{flex-direction:column}
+      .section{padding:65px 0}
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="nav">
+    <a href="#top" class="brand"><span class="mark"></span>ECOINDUSTRY 2050</a>
+    <div class="links">
+      <a href="#conceito">Conceito</a>
+      <a href="#dashboard">Dashboard</a>
+      <a href="#simulador">Simulador</a>
+      <a href="#quiz">Quiz</a>
+      <a href="#referencias">Referências</a>
+    </div>
+  </nav>
+
+  <header class="hero" id="top">
+    <video autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1800&q=80">
+      <source src="https://videos.pexels.com/video-files/3254066/3254066-uhd_2560_1440_25fps.mp4" type="video/mp4">
+    </video>
+    <div class="container">
+      <p class="eyebrow">Plataforma Interativa de Indústria Sustentável</p>
+      <h1>ECOINDUSTRY 2050</h1>
+      <p class="hero-text">Uma experiência executiva para visualizar, comparar e simular a transição industrial rumo à energia limpa, carbono zero, automação inteligente e produção circular.</p>
+      <a class="btn" href="#dashboard">Explorar dashboard</a>
+
+      <div class="hero-metrics">
+        <div class="card glass"><h3>87</h3><p>ESG Score projetado</p></div>
+        <div class="card glass"><h3>-42%</h3><p>Emissões operacionais</p></div>
+        <div class="card glass"><h3>68%</h3><p>Energia renovável</p></div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section" id="conceito">
+      <div class="container">
+        <div class="section-title reveal">
+          <div>
+            <p class="eyebrow">Indústria Sustentável</p>
+            <h2>Produzir mais valor usando menos recursos críticos.</h2>
+          </div>
+          <p>Uma indústria sustentável integra eficiência energética, economia circular, tecnologias digitais, transparência ESG e governança climática.</p>
+        </div>
+
+        <div class="grid4">
+          <article class="card glass reveal"><span class="icon">C</span><h3>Conceito</h3><p>Modelo produtivo que reduz desperdício, mede impactos e combina produtividade com responsabilidade ambiental.</p></article>
+          <article class="card glass reveal"><span class="icon">B</span><h3>Benefícios</h3><p>Menor custo operacional, reputação forte, acesso a capital verde e mais resiliência regulatória.</p></article>
+          <article class="card glass reveal"><span class="icon">A</span><h3>Impactos ambientais</h3><p>Redução de CO₂, menor consumo de água, preservação da biodiversidade e queda de resíduos.</p></article>
+          <article class="card glass reveal"><span class="icon">E</span><h3>Impactos econômicos</h3><p>Mais eficiência, inovação de processos, novas receitas circulares e vantagem competitiva.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-title reveal">
+          <div>
+            <p class="eyebrow">Pilares da Sustentabilidade</p>
+            <h2>Cinco motores para a fábrica regenerativa.</h2>
+          </div>
+          <p>Energia limpa, dados, automação e circularidade criam uma operação mais inteligente e menos poluente.</p>
+        </div>
+
+        <div class="grid5">
+          <article class="card glass reveal"><span class="icon">E</span><h3>Energia Renovável</h3><p>Solar, eólica, biomassa e contratos de energia limpa.</p></article>
+          <article class="card glass reveal"><span class="icon">R</span><h3>Economia Circular</h3><p>Reuso, reciclagem, logística reversa e redução de desperdício.</p></article>
+          <article class="card glass reveal"><span class="icon">W</span><h3>Gestão da Água</h3><p>Reuso, sensores, tratamento e menor captação hídrica.</p></article>
+          <article class="card glass reveal"><span class="icon">AI</span><h3>Automação Industrial</h3><p>IA, robótica e IoT para otimizar consumo e qualidade.</p></article>
+          <article class="card glass reveal"><span class="icon">0</span><h3>Carbono Zero</h3><p>Inventário, redução, compensação qualificada e metas científicas.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="dashboard">
+      <div class="container">
+        <div class="section-title reveal">
+          <div>
+            <p class="eyebrow">Dashboard ESG</p>
+            <h2>Indicadores executivos de performance sustentável.</h2>
+          </div>
+          <p>Monitore resultados ambientais e operacionais com métricas objetivas para tomada de decisão.</p>
+        </div>
+
+        <div class="dashboard">
+          <div class="ring-box glass reveal">
+            <div class="ring"><div><strong>87</strong><p>ESG Score</p></div></div>
+          </div>
+
+          <div class="kpis">
+            <div class="kpi glass reveal"><span>Redução de CO₂</span><strong>42%</strong><div class="bar"><i style="--v:42%"></i></div></div>
+            <div class="kpi glass reveal"><span>Reuso de Água</span><strong>58%</strong><div class="bar"><i style="--v:58%"></i></div></div>
+            <div class="kpi glass reveal"><span>Energia Renovável</span><strong>68%</strong><div class="bar"><i style="--v:68%"></i></div></div>
+            <div class="kpi glass reveal"><span>Reciclagem</span><strong>74%</strong><div class="bar"><i style="--v:74%"></i></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-title reveal">
+          <div>
+            <p class="eyebrow">Chart.js</p>
+            <h2>Gráficos interativos para leitura rápida.</h2>
+          </div>
+          <p>Passe o mouse ou toque nos gráficos para visualizar dados de energia, emissões e circularidade.</p>
+        </div>
+
+        <div class="charts">
+          <article class="chart glass reveal">
+            <h3>Transição energética 2025-2050</h3>
+            <div class="chart-box"><canvas id="energyChart"></canvas></div>
+          </article>
+
+          <article class="chart glass reveal">
+            <h3>Indicadores circulares</h3>
+            <div class="chart-box"><canvas id="circularChart"></canvas></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-title reveal">
+          <div>
+            <p class="eyebrow">Matriz Energética</p>
+            <h2>Comparação de fontes energéticas.</h2>
+          </div>
+          <p>A escolha energética combina custo, estabilidade, emissões e maturidade tecnológica.</p>
+        </div>
+
+        <div class="table-wrap glass reveal">
+          <table>
+            <thead>
+              <tr>
+                <th>Fonte</th>
+                <th>Emissão</th>
+                <th>Custo operacional</th>
+                <th>Escalabilidade</th>
+                <th>Aplicação industrial</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Solar fotovoltaica</td><td><span class="tag">Muito baixa</span></td><td>Baixo após implantação</td><td>Alta</td><td>Plantas, telhados, PPAs e microgrids</td></tr>
+              <tr><td>Eólica</td><td><span class="tag">Muito baixa</span></td><td>Competitivo</td><td>Alta</td><td>Contratos de longo prazo e autoprodução</td></tr>
+              <tr><td>Biomassa</td><td><span class="tag">Baixa</span></td><td>Médio</td><td>Média</td><td>Calor industrial e cogeração</td></tr>
+              <tr><td>Gás natural</td><td><span class="tag">Média</span></td><td>Variável</td><td>Alta</td><td>Transição energética e backup</td></tr>
+              <tr><td>Carvão mineral</td><td><span class="tag">Alta</span></td><td>Pressionado por carbono</td><td>Decrescente</td><td>Uso restrito e em descarbonização</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-title reveal">
+          <div>
+            <p class="eyebrow">Timeline</p>
+            <h2>Da máquina a vapor à indústria carbono zero.</h2>
+          </div>
+          <p>A evolução industrial entra em uma nova fase definida por eficiência, dados e regeneração ambiental.</p>
+        </div>
+
+        <div class="timeline">
+          <article class="time glass reveal"><div class="year">1760</div><div><h3>Primeira Revolução Industrial</h3><p>Mecanização, carvão e produção em escala.</p></div></article>
+          <article class="time glass reveal"><div class="year">1870</div><div><h3>Eletricidade e produção em massa</h3><p>Linhas de montagem aceleram a produtividade.</p></div></article>
+          <article class="time glass reveal"><div class="year">1970</div><div><h3>Automação e consciência ambiental</h3><p>Robótica, controle industrial e regulações ambientais.</p></div></article>
+          <article class="time glass reveal"><div class="year">2010</div><div><h3>Indústria 4.0</h3><p>IoT, sensores, cloud e dados ampliam a eficiência.</p></div></article>
+          <article class="time glass reveal"><div class="year">2025</div><div><h3>ESG operacional</h3><p>Carbono, água e cadeia entram nos dashboards corporativos.</p></div></article>
+          <article class="time glass reveal"><div class="year">2030</div><div><h3>Metas climáticas aceleradas</h3><p>Operações se alinham à redução de emissões.</p></div></article>
+          <article class="time glass reveal"><div class="year">2050</div><div><h3>Indústria regenerativa</h3><p>Fábricas carbono zero operam com IA e impacto positivo.</p></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-title reveal">
+          <div>
+            <p class="eyebrow">Casos de sucesso</p>
+            <h2>Estratégias que redesenham a produção.</h2>
+          </div>
+          <p>Práticas que unem competitividade, inovação e metas ambientais mensuráveis.</p>
+        </div>
+
+        <div class="news">
+          <article class="media glass reveal">
+            <img src="https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?auto=format&fit=crop&w=900&q=80" alt="Indústria moderna">
+            <div><h3>Fábrica de baixo carbono</h3><p>Eletrificação, energia renovável e monitoramento contínuo reduzem emissões.</p></div>
+          </article>
+
+          <article class="media glass reveal">
+            <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=900&q=80" alt="Painéis solares">
+            <div><h3>Microgrid solar industrial</h3><p>Geração distribuída, armazenamento e gestão inteligente estabilizam custos.</p></div>
+          </article>
+
+          <article class="media glass reveal">
+            <img src="https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=900&q=80" alt="Reciclagem">
+            <div><h3>Cadeia circular</h3><p>Resíduos de produção voltam ao ciclo e reduzem aterro e compra de insumos.</p></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="simulador">
+      <div class="container">
+        <div class="section-title reveal">
+          <div>
+            <p class="eyebrow">Simulador ESG</p>
+            <h2>Modele o impacto das decisões sustentáveis.</h2>
+          </div>
+          <p>Ajuste iniciativas e veja o efeito estimado em score, energia, carbono e classificação ESG.</p>
+        </div>
+
+        <div class="simulator">
+          <div class="controls">
+            <div class="control glass reveal"><label>Energia Solar <small><span id="solarValue">60</span>%</small></label><input id="solar" type="range" min="0" max="100" value="60"></div>
+            <div class="control glass reveal"><label>Reciclagem <small><span id="recyclingValue">70</span>%</small></label><input id="recycling" type="range" min="0" max="100" value="70"></div>
+            <div class="control glass reveal"><label>Reuso de Água <small><span id="waterValue">55</span>%</small></label><input id="water" type="range" min="0" max="100" value="55"></div>
+            <div class="control glass reveal"><label>IA Industrial <small><span id="aiValue">65</span>%</small></label><input id="ai" type="range" min="0" max="100" value="65"></div>
+            <div class="control glass reveal"><label>Neutralização de Carbono <small><span id="carbonValue">50</span>%</small></label><input id="carbon" type="range" min="0" max="100" value="50"></div>
+          </div>
+
+          <aside class="results glass reveal">
+            <div class="result"><span>ESG Score</span><b id="simScore">0</b></div>
+            <div class="result"><span>Economia Energética</span><b id="simEnergy">0%</b></div>
+            <div class="result"><span>Redução de CO₂</span><b id="simCo2">0%</b></div>
+            <div class="result"><span>Classificação ESG</span><b id="simClass">-</b></div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="quiz">
+      <div class="container">
+        <div class="section-title reveal">
+          <div>
+            <p class="eyebrow">Quiz ESG</p>
+            <h2>Teste seu domínio sobre indústria sustentável.</h2>
+          </div>
+          <p>Responda 10 perguntas e receba pontuação automática.</p>
+        </div>
+
+        <div class="quiz">
+          <article class="question glass reveal">
+            <p class="eyebrow" id="questionIndex">Pergunta 1 de 10</p>
+            <h3 id="questionText"></h3>
+            <div class="answers" id="answers"></div>
+          </article>
+
+          <aside class="quiz-panel glass reveal">
+            <h3>Resultado</h3>
+            <div class="progress"><i id="quizProgress"></i></div>
+            <p id="quizFeedback">Escolha uma alternativa para avançar.</p>
+            <strong id="quizScore" style="font-size:3rem">0/10</strong>
+            <p>
+              <button class="ghost" id="nextQuestion">Próxima</button>
+              <button class="ghost" id="restartQuiz">Reiniciar</button>
+            </p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-title reveal">
+          <div>
+            <p class="eyebrow">Notícias e tendências</p>
+            <h2>O que molda a agenda industrial.</h2>
+          </div>
+          <p>Tendências estratégicas para reduzir risco climático e acelerar inovação.</p>
+        </div>
+
+        <div class="news">
+          <article class="media glass reveal">
+            <img src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&w=900&q=80" alt="Tecnologia">
+            <div><span class="tag">IA e eficiência</span><h3>Gêmeos digitais reduzem perdas</h3><p>Simulações antecipam falhas, consumo excessivo e gargalos.</p></div>
+          </article>
+
+          <article class="media glass reveal">
+            <img src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=900&q=80" alt="Energia">
+            <div><span class="tag">Energia limpa</span><h3>PPAs verdes ganham escala</h3><p>Contratos renováveis estabilizam custos e reduzem emissões.</p></div>
+          </article>
+
+          <article class="media glass reveal">
+            <img src="https://images.unsplash.com/photo-1532601224476-15c79f2f7a51?auto=format&fit=crop&w=900&q=80" alt="Eólica">
+            <div><span class="tag">Net zero</span><h3>Cadeias cobram rastreabilidade</h3><p>Clientes e investidores exigem dados auditáveis de carbono, água e resíduos.</p></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-title reveal">
+          <div>
+            <p class="eyebrow">Impacto Global</p>
+            <h2>Contadores animados de uma nova economia.</h2>
+          </div>
+          <p>Indicadores simulados do potencial de programas industriais sustentáveis.</p>
+        </div>
+
+        <div class="counters">
+          <article class="counter glass reveal"><strong data-count="41">0</strong><p>milhões tCO₂e evitadas</p></article>
+          <article class="counter glass reveal"><strong data-count="67">0</strong><p>% de água reaproveitada</p></article>
+          <article class="counter glass reveal"><strong data-count="520">0</strong><p>plantas conectadas</p></article>
+          <article class="counter glass reveal"><strong data-count="88">0</strong><p>% de resíduos valorizados</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="referencias">
+      <div class="container">
+        <div class="section-title reveal">
+          <div>
+            <p class="eyebrow">Referências internacionais</p>
+            <h2>Instituições que orientam metas.</h2>
+          </div>
+          <p>Organizações globais sustentam metodologias, cenários climáticos, dados energéticos e governança.</p>
+        </div>
+
+        <div class="refs">
+          <article class="card glass reveal"><h3>ONU</h3><p>Objetivos de Desenvolvimento Sustentável e agenda global para clima, indústria e inovação.</p></article>
+          <article class="card glass reveal"><h3>IPCC</h3><p>Avaliações científicas sobre mudanças climáticas, mitigação e cenários de emissões.</p></article>
+          <article class="card glass reveal"><h3>International Energy Agency</h3><p>Dados e roteiros sobre energia, eficiência, transição renovável e indústria limpa.</p></article>
+          <article class="card glass reveal"><h3>World Economic Forum</h3><p>Transformação industrial, cadeias resilientes e competitividade sustentável.</p></article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer">
+      <div>
+        <strong>ECOINDUSTRY 2050</strong>
+        <p>Plataforma conceitual para estratégia, educação e inovação em indústria sustentável.</p>
+      </div>
+      <p>ESG Dashboard • Carbono Zero • Economia Circular • 2050</p>
+    </div>
+  </footer>
+
+  <script>
+    const $ = s => document.querySelector(s);
+    const $$ = s => [...document.querySelectorAll(s)];
+
+    const revealObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: .12 });
+
+    $$(".reveal").forEach(el => revealObserver.observe(el));
+
+    const counterObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+
+        const el = entry.target;
+        const target = Number(el.dataset.count);
+        const start = performance.now();
+
+        function animate(now) {
+          const progress = Math.min((now - start) / 1500, 1);
+          const value = Math.round(target * (1 - Math.pow(1 - progress, 3)));
+          el.textContent = value.toLocaleString("pt-BR");
+
+          if (progress < 1) requestAnimationFrame(animate);
+        }
+
+        requestAnimationFrame(animate);
+        counterObserver.unobserve(el);
+      });
+    }, { threshold: .4 });
+
+    $$("[data-count]").forEach(el => counterObserver.observe(el));
+
+    function initCharts() {
+      if (!window.Chart) return;
+
+      Chart.defaults.color = "#d9ece9";
+      Chart.defaults.borderColor = "rgba(255,255,255,.1)";
+
+      new Chart($("#energyChart"), {
+        type: "line",
+        data: {
+          labels: ["2025", "2030", "2035", "2040", "2045", "2050"],
+          datasets: [
+            {
+              label: "Energia renovável (%)",
+              data: [38, 52, 65, 76, 84, 92],
+              borderColor: "#28f3a0",
+              backgroundColor: "rgba(40,243,160,.18)",
+              fill: true,
+              tension: .42
+            },
+            {
+              label: "Emissões relativas (%)",
+              data: [100, 78, 58, 39, 22, 8],
+              borderColor: "#49b6ff",
+              backgroundColor: "rgba(73,182,255,.12)",
+              fill: true,
+              tension: .42
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { labels: { usePointStyle: true } },
+            tooltip: { backgroundColor: "rgba(5,8,13,.92)" }
+          },
+          scales: {
+            y: { beginAtZero: true },
+            x: { grid: { color: "rgba(255,255,255,.04)" } }
+          }
+        }
+      });
+
+      new Chart($("#circularChart"), {
+        type: "radar",
+        data: {
+          labels: ["Reciclagem", "Reuso de água", "Eficiência", "Rastreio", "Circularidade"],
+          datasets: [
+            {
+              label: "Atual",
+              data: [74, 58, 81, 66, 62],
+              borderColor: "#5ff8ff",
+              backgroundColor: "rgba(95,248,255,.16)"
+            },
+            {
+              label: "Meta 2050",
+              data: [94, 88, 96, 92, 90],
+              borderColor: "#28f3a0",
+              backgroundColor: "rgba(40,243,160,.13)"
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            r: {
+              beginAtZero: true,
+              max: 100,
+              ticks: { backdropColor: "transparent" },
+              grid: { color: "rgba(255,255,255,.1)" },
+              angleLines: { color: "rgba(255,255,255,.1)" }
+            }
+          }
+        }
+      });
+    }
+
+    window.addEventListener("load", initCharts);
+
+    const simInputs = {
+      solar: $("#solar"),
+      recycling: $("#recycling"),
+      water: $("#water"),
+      ai: $("#ai"),
+      carbon: $("#carbon")
+    };
+
+    function classification(score) {
+      if (score >= 86) return "AAA";
+      if (score >= 74) return "AA";
+      if (score >= 62) return "A";
+      if (score >= 48) return "BBB";
+      return "Em evolução";
+    }
+
+    function updateSimulator() {
+      const solar = Number(simInputs.solar.value);
+      const recycling = Number(simInputs.recycling.value);
+      const water = Number(simInputs.water.value);
+      const ai = Number(simInputs.ai.value);
+      const carbon = Number(simInputs.carbon.value);
+
+      $("#solarValue").textContent = solar;
+      $("#recyclingValue").textContent = recycling;
+      $("#waterValue").textContent = water;
+      $("#aiValue").textContent = ai;
+      $("#carbonValue").textContent = carbon;
+
+      const score = Math.round(solar * .22 + recycling * .18 + water * .17 + ai * .20 + carbon * .23);
+      const energy = Math.round(solar * .46 + ai * .25);
+      const co2 = Math.round(solar * .28 + recycling * .14 + ai * .16 + carbon * .34);
+
+      $("#simScore").textContent = score;
+      $("#simEnergy").textContent = Math.min(100, energy) + "%";
+      $("#simCo2").textContent = Math.min(100, co2) + "%";
+      $("#simClass").textContent = classification(score);
+    }
+
+    Object.values(simInputs).forEach(input => input.addEventListener("input", updateSimulator));
+    updateSimulator();
+
+    const quiz = [
+      {
+        q: "Qual prática reduz emissões de escopo 2?",
+        a: ["Contratar energia renovável", "Aumentar embalagens", "Reduzir auditorias", "Trocar sensores por leitura manual"],
+        c: 0
+      },
+      {
+        q: "Economia circular prioriza:",
+        a: ["Uso único de materiais", "Reuso, reparo e reciclagem", "Aumento de aterros", "Produção sem rastreabilidade"],
+        c: 1
+      },
+      {
+        q: "Um dashboard ESG deve oferecer:",
+        a: ["Apenas marketing visual", "Indicadores mensuráveis", "Somente textos institucionais", "Dados sem periodicidade"],
+        c: 1
+      },
+      {
+        q: "Qual tecnologia ajuda a prever falhas?",
+        a: ["IA industrial", "Planilhas isoladas", "Processos sem sensores", "Relatórios anuais manuais"],
+        c: 0
+      },
+      {
+        q: "Reuso de água industrial contribui para:",
+        a: ["Maior captação hídrica", "Menor pressão sobre recursos locais", "Mais descarte sem tratamento", "Menos eficiência"],
+        c: 1
+      },
+      {
+        q: "Carbono zero depende primeiro de:",
+        a: ["Inventariar e reduzir emissões", "Ignorar fornecedores", "Apenas comprar selos", "Suspender métricas"],
+        c: 0
+      },
+      {
+        q: "Qual fonte tem baixa emissão operacional?",
+        a: ["Carvão mineral", "Óleo combustível", "Solar fotovoltaica", "Diesel sem controle"],
+        c: 2
+      },
+      {
+        q: "ESG reúne dimensões:",
+        a: ["Energia, software e gestão", "Ambiental, social e governança", "Estoque, seguro e gás", "Engenharia, sistema e gráfico"],
+        c: 1
+      },
+      {
+        q: "Metas baseadas em ciência ajudam a:",
+        a: ["Alinhar redução de emissões ao clima", "Evitar transparência", "Aumentar desperdício", "Remover indicadores"],
+        c: 0
+      },
+      {
+        q: "Uma indústria regenerativa busca:",
+        a: ["Impacto líquido positivo", "Apenas cumprir o mínimo", "Aumentar resíduos", "Eliminar dados"],
+        c: 0
+      }
+    ];
+
+    let current = 0;
+    let score = 0;
+    let selected = null;
+    const answered = Array(quiz.length).fill(false);
+
+    function renderQuiz() {
+      const item = quiz[current];
+      selected = null;
+
+      $("#questionIndex").textContent = `Pergunta ${current + 1} de ${quiz.length}`;
+      $("#questionText").textContent = item.q;
+      $("#answers").innerHTML = "";
+
+      item.a.forEach((answer, index) => {
+        const button = document.createElement("button");
+        button.className = "answer";
+        button.type = "button";
+        button.textContent = answer;
+
+        button.onclick = () => {
+          if (answered[current]) return;
+
+          selected = index;
+          $$(".answer").forEach(btn => btn.classList.remove("selected"));
+          button.classList.add("selected");
+          $("#quizFeedback").textContent = "Alternativa selecionada. Avance para continuar.";
+        };
+
+        $("#answers").appendChild(button);
+      });
+
+      $("#quizProgress").style.width = ((current + 1) / quiz.length * 100) + "%";
+      $("#quizScore").textContent = `${score}/${quiz.length}`;
+    }
+
+    $("#nextQuestion").onclick = () => {
+      if (!answered[current]) {
+        if (selected === null) {
+          $("#quizFeedback").textContent = "Selecione uma alternativa antes de avançar.";
+          return;
+        }
+
+        answered[current] = true;
+
+        if (selected === quiz[current].c) {
+          score++;
+          $("#quizFeedback").textContent = "Resposta correta.";
+        } else {
+          $("#quizFeedback").textContent = `Resposta incorreta. Correta: ${quiz[current].a[quiz[current].c]}.`;
+        }
+      }
+
+      if (current < quiz.length - 1) {
+        current++;
+        renderQuiz();
+      } else {
+        $("#questionIndex").textContent = "Quiz concluído";
+        $("#questionText").textContent = `Pontuação final: ${score} de ${quiz.length}. ${
+          score >= 8 ? "Excelente domínio ESG." : score >= 5 ? "Bom caminho, com espaço para evoluir." : "Revise os pilares e tente novamente."
+        }`;
+        $("#answers").innerHTML = "";
+        $("#quizScore").textContent = `${score}/${quiz.length}`;
+        $("#quizProgress").style.width = "100%";
+        $("#quizFeedback").textContent = "Resultado calculado automaticamente.";
+      }
+    };
+
+    $("#restartQuiz").onclick = () => {
+      current = 0;
+      score = 0;
+      selected = null;
+      answered.fill(false);
+      $("#quizFeedback").textContent = "Escolha uma alternativa para avançar.";
+      renderQuiz();
+    };
+
+    renderQuiz();
+  </script>
+</body>
+</html>

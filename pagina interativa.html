@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Indústria Sustentável do Futuro</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+background:linear-gradient(-45deg,#0f172a,#064e3b,#0891b2,#16a34a);
+background-size:400% 400%;
+animation:gradient 15s ease infinite;
+color:white;
+overflow-x:hidden;
+}
+
+@keyframes gradient{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+.hero{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+text-align:center;
+padding:20px;
+}
+
+.hero-content{
+max-width:900px;
+}
+
+.hero h1{
+font-size:5rem;
+margin-bottom:20px;
+text-shadow:0 0 20px rgba(255,255,255,.3);
+}
+
+.hero span{
+color:#4ade80;
+}
+
+.hero p{
+font-size:1.3rem;
+margin-bottom:30px;
+}
+
+.btn{
+padding:15px 35px;
+border:none;
+border-radius:50px;
+cursor:pointer;
+font-size:18px;
+font-weight:bold;
+background:white;
+color:#16a34a;
+transition:.4s;
+}
+
+.btn:hover{
+transform:scale(1.1);
+}
+
+section{
+padding:80px 10%;
+}
+
+.section-title{
+text-align:center;
+font-size:3rem;
+margin-bottom:50px;
+}
+
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:30px;
+}
+
+.card{
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(15px);
+border:1px solid rgba(255,255,255,.1);
+padding:30px;
+border-radius:25px;
+text-align:center;
+transition:.5s;
+}
+
+.card:hover{
+transform:translateY(-10px) scale(1.05);
+box-shadow:0 0 30px #22c55e;
+}
+
+.card i{
+font-size:3rem;
+margin-bottom:20px;
+color:#4ade80;
+}
+
+.dashboard{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:25px;
+margin-top:40px;
+}
+
+.metric{
+background:rgba(255,255,255,.08);
+padding:30px;
+border-radius:20px;
+text-align:center;
+backdrop-filter:blur(15px);
+}
+
+.metric h3{
+font-size:3rem;
+color:#4ade80;
+}
+
+.simulator{
+background:rgba(0,0,0,.2);
+border-radius:25px;
+padding:40px;
+backdrop-filter:blur(15px);
+}
+
+label{
+display:block;
+margin-top:20px;
+margin-bottom:10px;
+font-size:18px;
+}
+
+input[type=range]{
+width:100%;
+}
+
+.result{
+margin-top:40px;
+font-size:2rem;
+text-align:center;
+}
+
+.timeline{
+display:flex;
+justify-content:space-between;
+flex-wrap:wrap;
+gap:20px;
+}
+
+.step{
+flex:1;
+min-width:150px;
+padding:20px;
+border-radius:20px;
+background:rgba(255,255,255,.08);
+text-align:center;
+transition:.4s;
+}
+
+.step:hover{
+transform:scale(1.1);
+background:rgba(34,197,94,.3);
+}
+
+.footer{
+text-align:center;
+padding:50px;
+}
+
+.fade{
+opacity:0;
+transform:translateY(40px);
+transition:1s;
+}
+
+.show{
+opacity:1;
+transform:translateY(0);
+}
+
+</style>
+</head>
+
+<body>
+
+<section class="hero">
+
+<div class="hero-content">
+
+<h1>
+Construindo a
+<span>Indústria Sustentável</span>
+do Futuro
+</h1>
+
+<p>
+Tecnologia, inovação e responsabilidade ambiental
+para transformar o planeta.
+</p>
+
+<a href="#pilares">
+<button class="btn">
+Explorar
+</button>
+</a>
+
+</div>
+
+</section>
+
+<section id="pilares" class="fade">
+
+<h2 class="section-title">
+5 Pilares da Sustentabilidade
+</h2>
+
+<div class="cards">
+
+<div class="card">
+<i class="fas fa-solar-panel"></i>
+<h3>Energia Limpa</h3>
+<p>Uso de fontes renováveis.</p>
+</div>
+
+<div class="card">
+<i class="fas fa-recycle"></i>
+<h3>Reciclagem</h3>
+<p>Economia circular.</p>
+</div>
+
+<div class="card">
+<i class="fas fa-droplet"></i>
+<h3>Gestão da Água</h3>
+<p>Reutilização inteligente.</p>
+</div>
+
+<div class="card">
+<i class="fas fa-leaf"></i>
+<h3>Baixo Carbono</h3>
+<p>Redução de emissões.</p>
+</div>
+
+<div class="card">
+<i class="fas fa-robot"></i>
+<h3>Indústria 4.0</h3>
+<p>Automação sustentável.</p>
+</div>
+
+</div>
+
+</section>
+
+<section class="fade">
+
+<h2 class="section-title">
+Jornada da Transformação
+</h2>
+
+<div class="timeline">
+
+<div class="step">🏭<br>Indústria Tradicional</div>
+<div class="step">☀️<br>Energia Solar</div>
+<div class="step">♻️<br>Economia Circular</div>
+<div class="step">💧<br>Reuso da Água</div>
+<div class="step">🤖<br>Automação</div>
+<div class="step">🌱<br>Carbono Zero</div>
+
+</div>
+
+</section>
+
+<section class="fade">
+
+<h2 class="section-title">
+Dashboard ESG
+</h2>
+
+<div class="dashboard">
+
+<div class="metric">
+<h3 id="energiaMetric">0%</h3>
+<p>Energia Renovável</p>
+</div>
+
+<div class="metric">
+<h3 id="aguaMetric">0%</h3>
+<p>Água Reutilizada</p>
+</div>
+
+<div class="metric">
+<h3 id="co2Metric">0%</h3>
+<p>Redução CO₂</p>
+</div>
+
+<div class="metric">
+<h3 id="esgMetric">0%</h3>
+<p>ESG Score</p>
+</div>
+
+</div>
+
+</section>
+
+<section class="fade">
+
+<h2 class="section-title">
+Simulador ESG
+</h2>
+
+<div class="simulator">
+
+<label>Energia Renovável</label>
+<input type="range" id="energia" min="0" max="100" value="70">
+
+<label>Reciclagem</label>
+<input type="range" id="reciclagem" min="0" max="100" value="60">
+
+<label>Eficiência Hídrica</label>
+<input type="range" id="agua" min="0" max="100" value="80">
+
+<div class="result" id="resultado">
+ESG Score: 70
+</div>
+
+</div>
+
+</section>
+
+<section class="footer">
+
+<h2>🌍 O Futuro da Indústria é Sustentável</h2>
+
+<p>
+Produzir mais, consumir menos recursos
+e preservar o planeta.
+</p>
+
+</section>
+
+<script>
+
+function animateValue(id,target){
+
+let value=0;
+
+let interval=setInterval(()=>{
+
+value++;
+
+document.getElementById(id).innerHTML=value+"%";
+
+if(value>=target){
+clearInterval(interval);
+}
+
+},20);
+
+}
+
+animateValue("energiaMetric",89);
+animateValue("aguaMetric",81);
+animateValue("co2Metric",72);
+animateValue("esgMetric",92);
+
+function calcular(){
+
+let energia=
+Number(document.getElementById("energia").value);
+
+let reciclagem=
+Number(document.getElementById("reciclagem").value);
+
+let agua=
+Number(document.getElementById("agua").value);
+
+let score=
+Math.round(
+(energia+reciclagem+agua)/3
+);
+
+document.getElementById("resultado")
+.innerHTML=
+"🌱 ESG Score: "+score+
+"<br>💰 Economia Potencial: R$ "+
+(score*50000).toLocaleString('pt-BR');
+
+}
+
+document.querySelectorAll("input")
+.forEach(item=>{
+
+item.addEventListener("input",calcular);
+
+});
+
+calcular();
+
+const observer=new IntersectionObserver(entries=>{
+
+entries.forEach(entry=>{
+
+if(entry.isIntersecting){
+
+entry.target.classList.add("show");
+
+}
+
+});
+
+});
+
+document.querySelectorAll(".fade")
+.forEach(el=>observer.observe(el));
+
+</script>
+
+</body>
+</html>
